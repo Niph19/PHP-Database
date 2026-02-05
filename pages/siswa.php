@@ -52,7 +52,7 @@ include("config.php");
                                             </div>
                                         </td>
                                         <td class="align-middle text-center p-2">
-                                            <img src="../assets/img/siswa/<?= $data['Foto']?>" class="avatar avatar-md rounded-circle" style="width: 100px; height: 100px; object-fit: cover;">
+                                            <img src="../assets/img/siswa/<?= $data['Foto']?>" class="avatar avatar-md rounded-circle" style="width: 75px; height: 75px; object-fit: cover;">
                                         </td>
                                         <td>
                                             <p class="text-xs mb-0 text-center font-weight-bolder"><?= $data['Nama']?></p>

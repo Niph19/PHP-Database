@@ -19,9 +19,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $Nama = $_POST['data_nama'];
     $Visi = $_POST['data_visi'];
     $Misi = $_POST['data_misi'];
-    $Foto = $_POST['data_foto'];
 
-    mysqli_query($koneksi, "UPDATE tbl_caketos set Nama='$Nama', Visi='$Visi', Nama='$Nama', Misi='$Misi', Foto='$Foto' WHERE id_calon='$id'");
+    if ($_FILES['data_foto']['name'] != "") {
+
+    $Foto = $_FILES["data_foto"]["name"];
+    $tmp_Foto = $_FILES["data_foto"]["tmp_name"];
+
+    $folder = "../assets/img/caketos/";
+
+    move_uploaded_file($tmp_Foto, $folder . $Foto);
+
+    // Update + Foto
+    $sql = "UPDATE tbl_caketos SET Nama='$Nama', Visi='$Visi', Misi='$Misi', Foto='$Foto' WHERE id_calon='$id'";
+    } else {
+
+    // Update tanpa Foto
+    $sql = "UPDATE tbl_caketos SET Nama='$Nama', Visi='$Visi', Misi='$Misi' WHERE id_calon='$id'";
+
+    }
+
+    mysqli_query($koneksi, $sql);   
 
     header("Location: caketos.php");
     exit;
@@ -39,7 +56,7 @@ include("sidebar.php");
                     <h6>Edit Calon Ketua OSIS</h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
-                    <form class="px-3" method="POST">
+                    <form class="px-3" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="nama">Nama</label>
                             <input type="text" class="form-control" name="data_nama" value="<?= $caketos['Nama']?>">
@@ -53,6 +70,7 @@ include("sidebar.php");
                             <input type="text" class="form-control" name="data_misi" value="<?= $caketos['Misi']?>">
                         </div>
                         <div class="form-group">
+                            <img src="../assets/img/caketos/<?= $caketos['Foto']?>" class="avatar avatar-md rounded-circle my-3" style="width: 75px; height: 75px; object-fit: cover;">
                             <label for="image_uploads">Upload Foto Calon</label><br>
                             <input type="file" id="foto_calon" name="data_foto"
                                 accept="image/png, image/jpeg, image/jpg" value="<?= $caketos['Foto']?>">

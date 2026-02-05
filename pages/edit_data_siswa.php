@@ -21,7 +21,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $jurusan = $_POST['data_jurusan'];
     $alamat = $_POST['data_alamat'];
 
-    mysqli_query($koneksi, "UPDATE tbl_siswa set Nama='$Nama', Kelas='$kelas', Jurusan='$jurusan', Alamat='$alamat' WHERE Nomor='$id'");
+    if ($_FILES['data_siswa']['name'] != "") {
+
+    $Foto = $_FILES["data_siswa"]["name"];
+    $tmp_Foto = $_FILES["data_siswa"]["tmp_name"];
+
+    $folder = "../assets/img/siswa/";
+
+    move_uploaded_file($tmp_Foto, $folder . $Foto);
+
+    // Update + Foto
+    $sql = "UPDATE tbl_siswa SET Nama='$Nama', Kelas='$kelas', Jurusan='$jurusan', Alamat='$alamat', Foto='$Foto' WHERE Nomor='$id'";
+    } else {
+
+    // Update tanpa Foto
+    $sql = "UPDATE tbl_siswa SET Nama='$Nama', Kelas='$kelas', Jurusan='$jurusan', Alamat='$alamat' WHERE Nomor='$id'";
+    }
+
+    mysqli_query($koneksi, $sql);   
 
     header("Location: siswa.php");
     exit;
@@ -41,7 +58,7 @@ include("sidebar.php");
 
 
                 <div class="card-body px-0 pt-0 pb-2">
-                    <form class="px-3" method="POST">
+                    <form class="px-3" method="POST" enctype="multipart/form-data">
 
 
                         <div class="form-group">
@@ -69,6 +86,13 @@ include("sidebar.php");
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
                             <input type="text" class="form-control" name="data_alamat" placeholder="Alamat Anda" value="<?= $siswa['Alamat']?>">
+                        </div>
+
+                        <div class="form-group">
+                            <img src="../assets/img/siswa/<?= $siswa['Foto']?>" class="avatar avatar-md rounded-circle my-3" style="width: 75px; height: 75px; object-fit: cover;">
+                            <label for="image_uploads">Upload Foto siswa</label><br>
+                            <input type="file" id="foto_siswa" name="data_siswa"
+                                accept="image/png, image/jpeg, image/jpg" value="<?= $siswa['Foto']?>">
                         </div>
 
 

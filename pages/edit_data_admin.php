@@ -21,7 +21,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $Nama = $_POST['data_nama'];
     $Alamat = $_POST['data_alamat'];
 
-    mysqli_query($koneksi, "UPDATE tbl_admin set Username='$Username', Password='$Password', Nama='$Nama', Alamat='$Alamat' WHERE id_admin='$id'");
+    if ($_FILES['data_foto']['name'] != "") {
+
+    $Foto = $_FILES["data_foto"]["name"];
+    $tmp_Foto = $_FILES["data_foto"]["tmp_name"];
+
+    $folder = "../assets/img/admin/";
+
+    move_uploaded_file($tmp_Foto, $folder . $Foto);
+
+    // Update + Foto
+    $sql = "UPDATE tbl_admin SET Username='$Username', Password='$Password', Nama='$Nama', Alamat='$Alamat', Foto='$Foto' WHERE id_admin='$id'";
+    } else {
+
+    // Update tanpa Foto
+    $sql = "UPDATE tbl_admin SET Username='$Username', Password='$Password', Nama='$Nama', Alamat='$Alamat' WHERE id_admin='$id'";
+
+    }
+
+    mysqli_query($koneksi, $sql);   
 
     header("Location: admin.php");
     exit;
@@ -39,7 +57,7 @@ include("sidebar.php");
                     <h6>Edit Admin</h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
-                    <form class="px-3" method="POST">
+                    <form class="px-3" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" class="form-control" name="data_username" value="<?= $admin['Username']?>">
@@ -55,6 +73,12 @@ include("sidebar.php");
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
                             <input type="text" class="form-control" name="data_alamat" value="<?= $admin['Alamat']?>">
+                        </div>
+                        <div class="form-group">
+                            <img src="../assets/img/admin/<?=$admin['Foto']?>" class="avatar avatar-md rounded-circle my-3" style="width: 75px; height: 75px; object-fit: cover;">
+                            <label for="image_uploads">Upload Foto Admin</label><br>
+                            <input type="file" id="foto_admin" name="data_foto"
+                                accept="image/png, image/jpeg, image/jpg" value="<?= $admin['Foto']?>">
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg">
                             <i class="fa-solid fa-paper-plane"></i>Edit Data
