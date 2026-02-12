@@ -67,36 +67,38 @@ include("pages/config.php");
           <p data-aos="fade-up" data-aos-delay="100">Pilih dengan <b>Bijak!</b></p>
 
           <form action="pages/proses_voting.php" method="POST" id="formVoting">
-          <input type="hidden" name="id_calon" id="id_calon">
-          <div class="container py-4">
-            <div class="row justify-content-center">
-              <?php
-              $no = 1;
-              $query = mysqli_query($koneksi, "SELECT * FROM `tbl_caketos`");
-              foreach ($query as $data): ?>
-                <div class="col-md-4" >
-                  <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card calon-card" onclick="pilihcaketos(<?= $data['id_calon'] ?>, this)">
-                      <!-- Jika tombol ini diklik, jalankan fungsi pilihcaketos sambil ngirim data calon  -->
-                      <span class="badge text-bg-secondary position-absolute top-0 start-0 m-2 fs-3 px-3 py-2">
-                        <?= sprintf("%01d", $no++) ?>
-                      </span>
-                      <img src="assets/img/caketos/<?= $data['Foto']?>" class="card-img-top"
-                        style="height: 400px; object-fit: cover;">
-                      <div class="card-body justify-content-center" style="height: 250px;">
-                        <h5 class="card-title pb-2 fs-4 fw-bolder"><?= $data['Nama'] ?></h5>
-                        <p class="card-text fs-5"><?= $data['Visi'] ?></p>
+            <input type="hidden" name="id_calon" id="id_calon">
+            <div class="container py-4">
+              <div class="row justify-content-center">
+                <?php
+                $no = 1;
+                $query = mysqli_query($koneksi, "SELECT * FROM `tbl_caketos`");
+                foreach ($query as $data): ?>
+                  <div class="col-md-4">
+                    <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
+                      <div class="card calon-card" onclick="pilihcaketos(<?= $data['id_calon'] ?>, this)">
+                        <!-- Jika tombol ini diklik, jalankan fungsi pilihcaketos sambil ngirim data calon  -->
+                        <span class="badge text-bg-secondary position-absolute top-0 start-0 m-2 fs-3 px-3 py-2">
+                          <?= sprintf("%01d", $no++) ?>
+                        </span>
+                        <img src="assets/img/caketos/<?= $data['Foto'] ?>" class="card-img-top"
+                          style="height: 400px; object-fit: cover;">
+                        <div class="card-body justify-content-center" style="height: 250px;">
+                          <h5 class="card-title pb-2 fs-4 fw-bolder"><?= $data['Nama'] ?></h5>
+                          <p class="card-text fs-5"><?= $data['Visi'] ?></p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              <?php endforeach ?>
+                <?php endforeach ?>
+              </div>
+              <div class="text-center mt-4">
+                <button class="btn btn-lg btn-primary px-5" type="submit" id="btnPilih">Pilih</button>
+              </div>
             </div>
-            <div class="text-center mt-4">
-              <button class="btn btn-lg btn-primary px-5" type="submit" id="btnPilih" disabled>Pilih</button>
-            </div>
-          </div>
+            </form>
         </div>
+      </div>
       </div>
 
     </section><!-- /Hero Section -->
@@ -120,24 +122,24 @@ include("pages/config.php");
 
     <script>
       function pilihcaketos(id, card) {
-        
-      // 
-      document.getElementById('id_calon').value = id;
 
-      // aktifkan tombol kirim
-      document.getElementById('btnPilih').disable = false;
+        // 
+        document.getElementById('id_calon').value = id;
 
-      // Ambil semua element yang punya nama class calon-card lalu disimpan dalam var semua_card
+        // aktifkan tombol kirim
+        // document.getElementById('btnPilih').disable = false;
 
-      let semua_card = document.querySelectorAll(".calon-card");
+        // Ambil semua element yang punya nama class calon-card lalu disimpan dalam var semua_card
 
-      // reset semua tanda di card
-      semua_card.forEach(kartu_satuan => {
-        kartu_satuan.classList.remove("border-info", "border-3");
-      })
+        let semua_card = document.querySelectorAll(".calon-card");
 
-      // beri tanda yang dipilih
-      card.classList.add("border-info", "border-3");
+        // reset semua tanda di card
+        semua_card.forEach(kartu_satuan => {
+          kartu_satuan.classList.remove("border-info", "border-3");
+        })
+
+        // beri tanda yang dipilih
+        card.classList.add("border-info", "border-3");
       }
     </script>
 </body>
