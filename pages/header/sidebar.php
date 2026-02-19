@@ -18,9 +18,9 @@ include("config.php");
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../../assets/img/fav-icon.png">
+    <link rel="icon" type="image/png" href="../../assets/img/faVOSIS.png">
     <title>
-        
+        VOSIS – Voting OSIS
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800" rel="stylesheet" />
@@ -159,7 +159,7 @@ include("config.php");
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  <?= $current_page == 'index.php' || $current_page == '' ? 'active' : ''?> " href="../voting/index.php">
+                    <a class="nav-link  <?= $current_page == 'index.php' || $current_page == '' ? 'active' : ''?> " href="../../index.php">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1"

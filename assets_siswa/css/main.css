@@ -155,8 +155,25 @@ h6 {
 }
 
 .header .logo img {
-  max-height: 36px;
+  max-height: 44px;
+  height: auto;
+  width: auto;
   margin-right: 8px;
+  display: block;
+  object-fit: contain;
+}
+
+.header .logo img.logo-main {
+  max-height: 40px;
+}
+
+.header .logo img.logo-secondary {
+  max-height: 36px;
+}
+
+@media (max-width: 480px) {
+  .header .logo img.logo-main { max-height: 28px; }
+  .header .logo img.logo-secondary { max-height: 22px; }
 }
 
 .header .logo h1 {

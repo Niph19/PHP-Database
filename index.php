@@ -8,12 +8,12 @@ include("pages/header/config.php");
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - QuickStart Bootstrap Template</title>
+  <title>VOSIS – Voting OSIS</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="assets_siswa/img/favicon.png" rel="icon">
+  <link href="assets/img/faVOSIS.png" rel="icon">
   <link href="assets_siswa/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
@@ -40,9 +40,9 @@ include("pages/header/config.php");
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
-      <a href="index.html" class="logo d-flex align-items-center me-auto">
-        <img src="assets/img/logo_osis.png" alt="">
-        <h1 class="sitename pt-2">Voting</h1>
+      <a href="index.php" class="logo d-flex align-items-center me-auto">
+        <img src="assets/img/VOSIS.png" width="150" height="50">
+        <img src="assets/img/logo_pesat.png" width="50" height="50">
       </a>
 
 
