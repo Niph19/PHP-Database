@@ -1,5 +1,5 @@
 <?php
-include "config.php";
+include("../header/config.php");
 
 // Ambil id dari URL
 // Jika di URL ada id, simpan ke var $id
@@ -8,40 +8,39 @@ $id = $_GET["id"] ?? null;
 
 // Ambil data id
 if ($id) {
-    $query = mysqli_query($koneksi, "SELECT * FROM tbl_admin WHERE id_admin = '$id'");
-    $admin = mysqli_fetch_assoc($query);
+    $query = mysqli_query($koneksi, "SELECT * FROM tbl_siswa WHERE Nomor = '$id'");
+    $siswa = mysqli_fetch_assoc($query);
     // mysqli_fetch_assoc = mengambil 1 baris data hasil dari query
 }
 
 // Update
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $Username = $_POST['data_username'];
-    $Password = $_POST['data_password'];
     $Nama = $_POST['data_nama'];
-    $Alamat = $_POST['data_alamat'];
+    $kelas = $_POST['data_kelas'];
+    $jurusan = $_POST['data_jurusan'];
+    $alamat = $_POST['data_alamat'];
 
-    if ($_FILES['data_foto']['name'] != "") {
+    if ($_FILES['data_siswa']['name'] != "") {
 
-    $Foto = $_FILES["data_foto"]["name"];
-    $tmp_Foto = $_FILES["data_foto"]["tmp_name"];
+    $Foto = $_FILES["data_siswa"]["name"];
+    $tmp_Foto = $_FILES["data_siswa"]["tmp_name"];
 
-    $folder = "../assets/img/admin/";
+    $folder = "../assets/img/siswa/";
 
     move_uploaded_file($tmp_Foto, $folder . $Foto);
 
     // Update + Foto
-    $sql = "UPDATE tbl_admin SET Username='$Username', Password='$Password', Nama='$Nama', Alamat='$Alamat', Foto='$Foto' WHERE id_admin='$id'";
+    $sql = "UPDATE tbl_siswa SET Nama='$Nama', Kelas='$kelas', Jurusan='$jurusan', Alamat='$alamat', Foto='$Foto' WHERE Nomor='$id'";
     } else {
 
     // Update tanpa Foto
-    $sql = "UPDATE tbl_admin SET Username='$Username', Password='$Password', Nama='$Nama', Alamat='$Alamat' WHERE id_admin='$id'";
-
+    $sql = "UPDATE tbl_siswa SET Nama='$Nama', Kelas='$kelas', Jurusan='$jurusan', Alamat='$alamat' WHERE Nomor='$id'";
     }
 
     mysqli_query($koneksi, $sql);   
 
-    header("Location: admin.php");
+    header("Location: siswa.php");
     exit;
 }
 
@@ -54,36 +53,54 @@ include("sidebar.php");
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Edit Admin</h6>
+                    <h6>Edit Data Siswa</h6>
                 </div>
+
+
                 <div class="card-body px-0 pt-0 pb-2">
                     <form class="px-3" method="POST" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" name="data_username" value="<?= $admin['Username']?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" name="data_password" value="<?= $admin['Password']?>">
-                        </div>
+
+
                         <div class="form-group">
                             <label for="nama">Nama</label>
-                            <input type="text" class="form-control" name="data_nama" value="<?= $admin['Nama']?>">
+                            <input type="text" class="form-control" name="data_nama" placeholder="Nama Lengkap" value="<?= $siswa['Nama']?>">
                         </div>
+
+
+                        <div class="form-group">
+                            <label for="kelas">Kelas</label>
+                            <select class="form-control" name="data_kelas" value="<?= $siswa['Kelas']?>">
+                                <option>X1</option>
+                                <option>X2</option>
+                                <option>X3</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="jurusan">Jurusan</label>
+                            <input type="text" class="form-control" name="data_jurusan" placeholder="Jurusan Anda" value="<?= $siswa['Jurusan']?>">
+                        </div>
+
+
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
-                            <input type="text" class="form-control" name="data_alamat" value="<?= $admin['Alamat']?>">
+                            <input type="text" class="form-control" name="data_alamat" placeholder="Alamat Anda" value="<?= $siswa['Alamat']?>">
                         </div>
+
                         <div class="form-group">
-                            <img src="../assets/img/admin/<?=$admin['Foto']?>" class="avatar avatar-md rounded-circle my-3" style="width: 75px; height: 75px; object-fit: cover;">
-                            <label for="image_uploads">Upload Foto Admin</label><br>
-                            <input type="file" id="foto_admin" name="data_foto"
-                                accept="image/png, image/jpeg, image/jpg" value="<?= $admin['Foto']?>">
+                            <img src="../assets/img/siswa/<?= $siswa['Foto']?>" class="avatar avatar-md rounded-circle my-3" style="width: 75px; height: 75px; object-fit: cover;">
+                            <label for="image_uploads">Upload Foto siswa</label><br>
+                            <input type="file" id="foto_siswa" name="data_siswa"
+                                accept="image/png, image/jpeg, image/jpg" value="<?= $siswa['Foto']?>">
                         </div>
+
+
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fa-solid fa-paper-plane"></i>Edit Data
+                            <i class="fa-solid fa-paper-plane"></i>Tambahkan data
                         </button>
                     </form>
+
                 </div>
             </div>
         </div>

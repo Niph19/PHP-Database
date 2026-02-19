@@ -1,6 +1,52 @@
 <?php
+include("../header/config.php");
+
+// Ambil id dari URL
+// Jika di URL ada id, simpan ke var $id
+// Jika tidak, isi $id dengan null, jadi $id = null
+$id = $_GET["id"] ?? null;
+
+// Ambil data id
+if ($id) {
+    $query = mysqli_query($koneksi, "SELECT * FROM tbl_admin WHERE id_admin = '$id'");
+    $admin = mysqli_fetch_assoc($query);
+    // mysqli_fetch_assoc = mengambil 1 baris data hasil dari query
+}
+
+// Update
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $Username = $_POST['data_username'];
+    $Password = $_POST['data_password'];
+    $Nama = $_POST['data_nama'];
+    $Alamat = $_POST['data_alamat'];
+
+    if ($_FILES['data_foto']['name'] != "") {
+
+    $Foto = $_FILES["data_foto"]["name"];
+    $tmp_Foto = $_FILES["data_foto"]["tmp_name"];
+
+    $folder = "../assets/img/admin/";
+
+    move_uploaded_file($tmp_Foto, $folder . $Foto);
+
+    // Update + Foto
+    $sql = "UPDATE tbl_admin SET Username='$Username', Password='$Password', Nama='$Nama', Alamat='$Alamat', Foto='$Foto' WHERE id_admin='$id'";
+    } else {
+
+    // Update tanpa Foto
+    $sql = "UPDATE tbl_admin SET Username='$Username', Password='$Password', Nama='$Nama', Alamat='$Alamat' WHERE id_admin='$id'";
+
+    }
+
+    mysqli_query($koneksi, $sql);   
+
+    header("Location: admin.php");
+    exit;
+}
+
+
 include("sidebar.php");
-include("config.php");
 ?>
 
 <div class="container-fluid py-4">
@@ -8,69 +54,36 @@ include("config.php");
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Tambah Admin</h6>
+                    <h6>Edit Admin</h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <form class="px-3" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control" name="data_username" required>
+                            <input type="text" class="form-control" name="data_username" value="<?= $admin['Username']?>">
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" name="data_password" required>
+                            <input type="password" class="form-control" name="data_password" value="<?= $admin['Password']?>">
                         </div>
                         <div class="form-group">
                             <label for="nama">Nama</label>
-                            <input type="text" class="form-control" name="data_nama" required>
+                            <input type="text" class="form-control" name="data_nama" value="<?= $admin['Nama']?>">
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
-                            <input type="text" class="form-control" name="data_alamat" required>
+                            <input type="text" class="form-control" name="data_alamat" value="<?= $admin['Alamat']?>">
                         </div>
                         <div class="form-group">
+                            <img src="../assets/img/admin/<?=$admin['Foto']?>" class="avatar avatar-md rounded-circle my-3" style="width: 75px; height: 75px; object-fit: cover;">
                             <label for="image_uploads">Upload Foto Admin</label><br>
-                            <input type="file" id="foto_admin" required name="data_foto_admin"
-                                accept="image/png, image/jpeg, image/jpg" />
+                            <input type="file" id="foto_admin" name="data_foto"
+                                accept="image/png, image/jpeg, image/jpg" value="<?= $admin['Foto']?>">
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg">
-                                        <i class="fa-solid fa-paper-plane"></i>Tambahkan data
-                                    </button>
+                            <i class="fa-solid fa-paper-plane"></i>Edit Data
+                        </button>
                     </form>
-                    <?php
-                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-                        $Username = $_POST['data_username'];
-                        $Password = $_POST['data_password'];
-                        $Nama = $_POST['data_nama'];
-                        $Alamat = $_POST['data_alamat'];
-
-                        // Folder Upload
-                        $folder = "../assets/img/admin/";
-                        
-                        // Ambil data file
-                        $nama_File = $_FILES['data_foto_admin']['name'];
-                        $tmp_File = $_FILES['data_foto_admin']['tmp_name'];
-                        // $_FILES['foto]['name']  : variable bawaan php untuk menampung data file yang di upload
-                        // [foto] : name pada form, [name] untuk mengambil nama asli file yang di upload oleh user
-                        
-                        // Membuat Nama unik
-                        $nama_baru = time() . "_" . $nama_File;
-
-                        // Pindahkan file ke folder tujuan
-                        move_uploaded_file($tmp_File, $folder . $nama_baru);
-                        $query = "INSERT INTO tbl_admin(Username, Password, Nama, Alamat, Foto) 
-                        VALUES ('$Username','$Password','$Nama', '$Alamat', '$nama_baru')";
-
-                        if (mysqli_query($koneksi, $query)) {
-                            echo "<div class='alert alert-success text-center'>Data Berhasil Disimpan</div>";
-                        } else {
-                            echo "<div class='alert alert-danger text-center'>
-                            Gagal : " . mysqli_error($koneksi) . "
-                        </div>";
-                        }
-                    }
-                    ?>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 <?php
-include "config.php";
+include("../header/config.php");
 
 // Ambil id dari URL
 // Jika di URL ada id, simpan ke var $id
@@ -8,8 +8,8 @@ $id = $_GET["id"] ?? null;
 
 // Ambil data id
 if ($id) {
-    $query = mysqli_query($koneksi, "SELECT * FROM tbl_siswa WHERE Nomor = '$id'");
-    $siswa = mysqli_fetch_assoc($query);
+    $query = mysqli_query($koneksi, "SELECT * FROM tbl_caketos WHERE id_calon = '$id'");
+    $caketos = mysqli_fetch_assoc($query);
     // mysqli_fetch_assoc = mengambil 1 baris data hasil dari query
 }
 
@@ -17,30 +17,30 @@ if ($id) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $Nama = $_POST['data_nama'];
-    $kelas = $_POST['data_kelas'];
-    $jurusan = $_POST['data_jurusan'];
-    $alamat = $_POST['data_alamat'];
+    $Visi = $_POST['data_visi'];
+    $Misi = $_POST['data_misi'];
 
-    if ($_FILES['data_siswa']['name'] != "") {
+    if ($_FILES['data_foto']['name'] != "") {
 
-    $Foto = $_FILES["data_siswa"]["name"];
-    $tmp_Foto = $_FILES["data_siswa"]["tmp_name"];
+    $Foto = $_FILES["data_foto"]["name"];
+    $tmp_Foto = $_FILES["data_foto"]["tmp_name"];
 
-    $folder = "../assets/img/siswa/";
+    $folder = "../assets/img/caketos/";
 
     move_uploaded_file($tmp_Foto, $folder . $Foto);
 
     // Update + Foto
-    $sql = "UPDATE tbl_siswa SET Nama='$Nama', Kelas='$kelas', Jurusan='$jurusan', Alamat='$alamat', Foto='$Foto' WHERE Nomor='$id'";
+    $sql = "UPDATE tbl_caketos SET Nama='$Nama', Visi='$Visi', Misi='$Misi', Foto='$Foto' WHERE id_calon='$id'";
     } else {
 
     // Update tanpa Foto
-    $sql = "UPDATE tbl_siswa SET Nama='$Nama', Kelas='$kelas', Jurusan='$jurusan', Alamat='$alamat' WHERE Nomor='$id'";
+    $sql = "UPDATE tbl_caketos SET Nama='$Nama', Visi='$Visi', Misi='$Misi' WHERE id_calon='$id'";
+
     }
 
     mysqli_query($koneksi, $sql);   
 
-    header("Location: siswa.php");
+    header("Location: caketos.php");
     exit;
 }
 
@@ -53,54 +53,32 @@ include("sidebar.php");
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Edit Data Siswa</h6>
+                    <h6>Edit Calon Ketua OSIS</h6>
                 </div>
-
-
                 <div class="card-body px-0 pt-0 pb-2">
                     <form class="px-3" method="POST" enctype="multipart/form-data">
-
-
                         <div class="form-group">
                             <label for="nama">Nama</label>
-                            <input type="text" class="form-control" name="data_nama" placeholder="Nama Lengkap" value="<?= $siswa['Nama']?>">
+                            <input type="text" class="form-control" name="data_nama" value="<?= $caketos['Nama']?>">
                         </div>
-
-
                         <div class="form-group">
-                            <label for="kelas">Kelas</label>
-                            <select class="form-control" name="data_kelas" value="<?= $siswa['Kelas']?>">
-                                <option>X1</option>
-                                <option>X2</option>
-                                <option>X3</option>
-                            </select>
+                            <label for="visi">Visi</label>
+                            <input type="text" class="form-control" name="data_visi" value="<?= $caketos['Visi']?>">
                         </div>
-
-
                         <div class="form-group">
-                            <label for="jurusan">Jurusan</label>
-                            <input type="text" class="form-control" name="data_jurusan" placeholder="Jurusan Anda" value="<?= $siswa['Jurusan']?>">
+                            <label for="misi">Misi</label>
+                            <input type="text" class="form-control" name="data_misi" value="<?= $caketos['Misi']?>">
                         </div>
-
-
                         <div class="form-group">
-                            <label for="alamat">Alamat</label>
-                            <input type="text" class="form-control" name="data_alamat" placeholder="Alamat Anda" value="<?= $siswa['Alamat']?>">
+                            <img src="../assets/img/caketos/<?= $caketos['Foto']?>" class="avatar avatar-md rounded-circle my-3" style="width: 75px; height: 75px; object-fit: cover;">
+                            <label for="image_uploads">Upload Foto Calon</label><br>
+                            <input type="file" id="foto_calon" name="data_foto"
+                                accept="image/png, image/jpeg, image/jpg" value="<?= $caketos['Foto']?>">
                         </div>
-
-                        <div class="form-group">
-                            <img src="../assets/img/siswa/<?= $siswa['Foto']?>" class="avatar avatar-md rounded-circle my-3" style="width: 75px; height: 75px; object-fit: cover;">
-                            <label for="image_uploads">Upload Foto siswa</label><br>
-                            <input type="file" id="foto_siswa" name="data_siswa"
-                                accept="image/png, image/jpeg, image/jpg" value="<?= $siswa['Foto']?>">
-                        </div>
-
-
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fa-solid fa-paper-plane"></i>Tambahkan data
+                            <i class="fa-solid fa-paper-plane"></i>Edit Data Calon
                         </button>
                     </form>
-
                 </div>
             </div>
         </div>

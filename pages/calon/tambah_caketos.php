@@ -1,51 +1,6 @@
 <?php
-include "config.php";
-
-// Ambil id dari URL
-// Jika di URL ada id, simpan ke var $id
-// Jika tidak, isi $id dengan null, jadi $id = null
-$id = $_GET["id"] ?? null;
-
-// Ambil data id
-if ($id) {
-    $query = mysqli_query($koneksi, "SELECT * FROM tbl_caketos WHERE id_calon = '$id'");
-    $caketos = mysqli_fetch_assoc($query);
-    // mysqli_fetch_assoc = mengambil 1 baris data hasil dari query
-}
-
-// Update
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    $Nama = $_POST['data_nama'];
-    $Visi = $_POST['data_visi'];
-    $Misi = $_POST['data_misi'];
-
-    if ($_FILES['data_foto']['name'] != "") {
-
-    $Foto = $_FILES["data_foto"]["name"];
-    $tmp_Foto = $_FILES["data_foto"]["tmp_name"];
-
-    $folder = "../assets/img/caketos/";
-
-    move_uploaded_file($tmp_Foto, $folder . $Foto);
-
-    // Update + Foto
-    $sql = "UPDATE tbl_caketos SET Nama='$Nama', Visi='$Visi', Misi='$Misi', Foto='$Foto' WHERE id_calon='$id'";
-    } else {
-
-    // Update tanpa Foto
-    $sql = "UPDATE tbl_caketos SET Nama='$Nama', Visi='$Visi', Misi='$Misi' WHERE id_calon='$id'";
-
-    }
-
-    mysqli_query($koneksi, $sql);   
-
-    header("Location: caketos.php");
-    exit;
-}
-
-
-include("sidebar.php");
+include("../header/sidebar.php");
+include("../header/config.php");
 ?>
 
 <div class="container-fluid py-4">
@@ -53,32 +8,65 @@ include("sidebar.php");
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Edit Calon Ketua OSIS</h6>
+                    <h6>Tambah Calon Ketua OSIS</h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <form class="px-3" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="nama">Nama</label>
-                            <input type="text" class="form-control" name="data_nama" value="<?= $caketos['Nama']?>">
+                            <input type="text" class="form-control" name="data_nama" required>
                         </div>
                         <div class="form-group">
                             <label for="visi">Visi</label>
-                            <input type="text" class="form-control" name="data_visi" value="<?= $caketos['Visi']?>">
+                            <input type="text" class="form-control" name="data_visi" required>
                         </div>
                         <div class="form-group">
                             <label for="misi">Misi</label>
-                            <input type="text" class="form-control" name="data_misi" value="<?= $caketos['Misi']?>">
+                            <input type="text" class="form-control" name="data_misi" required>
                         </div>
                         <div class="form-group">
-                            <img src="../assets/img/caketos/<?= $caketos['Foto']?>" class="avatar avatar-md rounded-circle my-3" style="width: 75px; height: 75px; object-fit: cover;">
                             <label for="image_uploads">Upload Foto Calon</label><br>
-                            <input type="file" id="foto_calon" name="data_foto"
-                                accept="image/png, image/jpeg, image/jpg" value="<?= $caketos['Foto']?>">
+                            <input type="file" id="foto_calon" required name="data_foto_calon"
+                                accept="image/png, image/jpeg, image/jpg" />
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fa-solid fa-paper-plane"></i>Edit Data Calon
+                            <i class="fa-solid fa-paper-plane"></i>Tambahkan data Calon
                         </button>
                     </form>
+                    <?php
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                        $Nama = $_POST['data_nama'];
+                        $Visi = $_POST['data_visi'];
+                        $Misi = $_POST['data_misi'];
+                        // Folder Upload
+                        $folder = "../assets/img/caketos/";
+                        
+                        // Ambil data file
+                        $nama_File = $_FILES['data_foto_calon']['name'];
+                        $tmp_File = $_FILES['data_foto_calon']['tmp_name'];
+                        // $_FILES['foto]['name']  : variable bawaan php untuk menampung data file yang di upload
+                        // [foto] : name pada form, [name] untuk mengambil nama asli file yang di upload oleh user
+                        
+                        // Membuat Nama unik
+                        $nama_baru = time() . "_" . $nama_File;
+
+                        // Pindahkan file ke folder tujuan
+                        move_uploaded_file($tmp_File, $folder . $nama_baru);
+                        $query = "INSERT INTO tbl_caketos(Nama, Visi, Misi, Foto) 
+                        VALUES ('$Nama','$Visi','$Misi', '$nama_baru')";
+
+
+
+                        if (mysqli_query($koneksi, $query)) {
+                            echo "<div class='alert alert-success text-center'>Data Berhasil Disimpan</div>";
+                        } else {
+                            echo "<div class='alert alert-danger text-center'>
+                            Gagal : " . mysqli_error($koneksi) . "
+                        </div>";
+                        }
+                    }
+                    ?>
                 </div>
             </div>
         </div>

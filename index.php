@@ -1,5 +1,5 @@
 <?php
-include("pages/config.php");
+include("pages/header/config.php");
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +49,7 @@ include("pages/config.php");
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 
 
-      <a class="btn-getstarted" href="pages/dashboard.php">Dashboard</a>
+      <a class="btn-getstarted" href="pages/dashboard/dashboard.php">Dashboard</a>
 
     </div>
   </header>

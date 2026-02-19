@@ -1,6 +1,6 @@
 <?php
-include("sidebar.php");
-include("config.php");
+include("../header/sidebar.php");
+include("../header/config.php");
 ?>
 
 <div class="container-fluid py-4">
@@ -8,8 +8,8 @@ include("config.php");
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Data Admin</h6>
-                    <a href="tambah_admin.php" class="btn btn-primary">Tambah Admin</a>
+                    <h6>Data Calon Ketua OSIS</h6>
+                    <a href="tambah_caketos.php" class="btn btn-primary">Tambah Calon</a>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -19,20 +19,17 @@ include("config.php");
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 5%;">
                                         Nomor</th>
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 " style="width: 10%">
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 " style="width: 10%; ">
                                         Foto</th>
                                     <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 px-2 text-center" style="width: 15%">
-                                        Username</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Password</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 px-2 text-center" style="width: 15%; ">
                                         Nama</th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Alamat</th>
+                                        Visi</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Misi</th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="width: 15%; ">
                                         Action</th>
@@ -40,83 +37,45 @@ include("config.php");
                             </thead>
                             <tbody>
                                 <?php
-                            $no = 1;
-                            $query = mysqli_query($koneksi, "SELECT * FROM `tbl_admin`");
-                            foreach ($query as $data):  ?>
+                                $no = 1;
+                                $query = mysqli_query($koneksi, "SELECT * FROM `tbl_caketos`");
+                                foreach ($query as $data): ?>
                                     <tr>
                                         <td>
-                                            <div class="d-flex px-2 py-1">
+                                            <div class="d-flex px-0 py-1 text-center">
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm"><?= $no++; ?></h6>
+                                                    <h6 class="mb-0 pe-0 ps-4 text-sm "><?= $no++; ?></h6>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="align-middle text-center p-2">
-                                            <img src="../assets/img/admin/<?= $data['Foto']?>" class="avatar avatar-md rounded-circle" style="width: 75px; height: 75px; object-fit: cover;">
+                                            <img src="../assets/img/caketos/<?= $data['Foto']?>" class="avatar avatar-md rounded-circle" style="width: 75px; height: 75px; object-fit: cover;">
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0 text-center"><?= $data['Username']?></p>
+                                            <p class="text-xs font-weight-bold mb-0 text-center"><?= $data['Nama'] ?></p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <p class="text-xs font-weight-bold mb-0"><?= $data['Password']?></p>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $data['Visi'] ?></p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <p class="text-xs font-weight-bold mb-0"><?= $data['Nama']?></p>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $data['Misi'] ?></p>
                                         </td>
                                         <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold"><?= $data["Alamat"]?></span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <a href="edit_data_admin.php?id=<?= $data['id_admin']; ?>" class="btn btn-primary align-middle">Edit</a>
-                                            <a href="delete_admin.php?id=<?= $data['id_admin']; ?>" class="btn btn-danger align-middle">Delete</a>
+                                            <a href="edit_data_caketos.php?id=<?= $data['id_calon']; ?>"
+                                                class="btn btn-primary align-middle">Edit</a>
+                                            <a href="delete_caketos.php?id=<?= $data['id_calon']; ?>"
+                                                class="btn btn-danger align-middle">Delete</a>
                                         </td>
                                     </tr>
-                                    <?php endforeach ?>
-                                </tbody>
+                                <?php endforeach ?>
+                            </tbody>
+
                         </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <footer class="footer pt-3  ">
-        <div class="container-fluid">
-            <div class="row align-items-center justify-content-lg-between">
-                <div class="col-lg-6 mb-lg-0 mb-4">
-                    <div class="copyright text-center text-sm text-muted text-lg-start">
-                        ©
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script>,
-                        made with <i class="fa fa-heart"></i> by
-                        <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative
-                            Tim</a>
-                        for a better web.
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                        <li class="nav-item">
-                            <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative
-                                Tim</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted"
-                                target="_blank">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="https://www.creative-tim.com/blog" class="nav-link text-muted"
-                                target="_blank">Blog</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted"
-                                target="_blank">License</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
 </div>
 </main>
 <div class="fixed-plugin">

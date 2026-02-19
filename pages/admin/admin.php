@@ -1,14 +1,15 @@
 <?php
-include("sidebar.php");
-include("config.php");
+include("../header/sidebar.php");
+include("../header/config.php");
 ?>
+
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Data Siswa</h6>
-                    <a href="tambah_siswa.php" class="btn btn-primary">Tambah Siswa</a>
+                    <h6>Data Admin</h6>
+                    <a href="tambah_admin.php" class="btn btn-primary">Tambah Admin</a>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -22,13 +23,13 @@ include("config.php");
                                         Foto</th>
                                     <th
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 px-2 text-center" style="width: 15%">
+                                        Username</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Password</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Nama</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Kelas</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Jurusan</th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Alamat</th>
@@ -38,38 +39,36 @@ include("config.php");
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php
+                                <?php
                             $no = 1;
-                            $query = mysqli_query($koneksi, "SELECT * FROM `tbl_siswa`");
+                            $query = mysqli_query($koneksi, "SELECT * FROM `tbl_admin`");
                             foreach ($query as $data):  ?>
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2 py-1">
-
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm"><?= $no++; ?></h6>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="align-middle text-center p-2">
-                                            <img src="../assets/img/siswa/<?= $data['Foto']?>" class="avatar avatar-md rounded-circle" style="width: 75px; height: 75px; object-fit: cover;">
+                                            <img src="../assets/img/admin/<?= $data['Foto']?>" class="avatar avatar-md rounded-circle" style="width: 75px; height: 75px; object-fit: cover;">
                                         </td>
                                         <td>
-                                            <p class="text-xs mb-0 text-center font-weight-bolder"><?= $data['Nama']?></p>
-                                            <p class="text-xs mb-0 text-center font-weight-light"><?= $data['Nama']?>@gmail.com</p>
+                                            <p class="text-xs font-weight-bold mb-0 text-center"><?= $data['Username']?></p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <p class="text-xs font-weight-bold mb-0"><?= $data['Kelas']?></p>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $data['Password']?></p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <p class="text-xs font-weight-bold mb-0"><?= $data['Jurusan']?></p>
+                                            <p class="text-xs font-weight-bold mb-0"><?= $data['Nama']?></p>
                                         </td>
                                         <td class="align-middle text-center">
                                             <span class="text-secondary text-xs font-weight-bold"><?= $data["Alamat"]?></span>
                                         </td>
                                         <td class="align-middle text-center">
-                                            <a href="edit_data_siswa.php?id=<?= $data['Nomor']; ?>" class="btn btn-primary align-middle">Edit</a>
-                                            <a href="delete_siswa.php?id=<?= $data['Nomor']; ?>" class="btn btn-danger align-middle">Delete</a>
+                                            <a href="edit_data_admin.php?id=<?= $data['id_admin']; ?>" class="btn btn-primary align-middle">Edit</a>
+                                            <a href="delete_admin.php?id=<?= $data['id_admin']; ?>" class="btn btn-danger align-middle">Delete</a>
                                         </td>
                                     </tr>
                                     <?php endforeach ?>

@@ -1,6 +1,6 @@
 <?php
-include("sidebar.php");
-include("config.php");
+include("../header/sidebar.php");
+include("../header/config.php");
 ?>
 
 <div class="container-fluid py-4">

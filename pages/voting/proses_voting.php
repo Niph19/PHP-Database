@@ -1,5 +1,5 @@
 <?php
-include("config.php");
+include("../header/config.php");
 
 // cek apakah tombol diklik
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

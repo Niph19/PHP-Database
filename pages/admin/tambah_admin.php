@@ -1,6 +1,6 @@
 <?php
-include("sidebar.php");
-include("config.php");
+include("../header/sidebar.php");
+include("../header/config.php");
 ?>
 
 <div class="container-fluid py-4">
@@ -8,43 +8,49 @@ include("config.php");
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Tambah Calon Ketua OSIS</h6>
+                    <h6>Tambah Admin</h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <form class="px-3" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" name="data_username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" name="data_password" required>
+                        </div>
                         <div class="form-group">
                             <label for="nama">Nama</label>
                             <input type="text" class="form-control" name="data_nama" required>
                         </div>
                         <div class="form-group">
-                            <label for="visi">Visi</label>
-                            <input type="text" class="form-control" name="data_visi" required>
+                            <label for="alamat">Alamat</label>
+                            <input type="text" class="form-control" name="data_alamat" required>
                         </div>
                         <div class="form-group">
-                            <label for="misi">Misi</label>
-                            <input type="text" class="form-control" name="data_misi" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="image_uploads">Upload Foto Calon</label><br>
-                            <input type="file" id="foto_calon" required name="data_foto_calon"
+                            <label for="image_uploads">Upload Foto Admin</label><br>
+                            <input type="file" id="foto_admin" required name="data_foto_admin"
                                 accept="image/png, image/jpeg, image/jpg" />
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fa-solid fa-paper-plane"></i>Tambahkan data Calon
-                        </button>
+                                        <i class="fa-solid fa-paper-plane"></i>Tambahkan data
+                                    </button>
                     </form>
                     <?php
                     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+                        $Username = $_POST['data_username'];
+                        $Password = $_POST['data_password'];
                         $Nama = $_POST['data_nama'];
-                        $Visi = $_POST['data_visi'];
-                        $Misi = $_POST['data_misi'];
+                        $Alamat = $_POST['data_alamat'];
+
                         // Folder Upload
-                        $folder = "../assets/img/caketos/";
+                        $folder = "../assets/img/admin/";
                         
                         // Ambil data file
-                        $nama_File = $_FILES['data_foto_calon']['name'];
-                        $tmp_File = $_FILES['data_foto_calon']['tmp_name'];
+                        $nama_File = $_FILES['data_foto_admin']['name'];
+                        $tmp_File = $_FILES['data_foto_admin']['tmp_name'];
                         // $_FILES['foto]['name']  : variable bawaan php untuk menampung data file yang di upload
                         // [foto] : name pada form, [name] untuk mengambil nama asli file yang di upload oleh user
                         
@@ -53,10 +59,8 @@ include("config.php");
 
                         // Pindahkan file ke folder tujuan
                         move_uploaded_file($tmp_File, $folder . $nama_baru);
-                        $query = "INSERT INTO tbl_caketos(Nama, Visi, Misi, Foto) 
-                        VALUES ('$Nama','$Visi','$Misi', '$nama_baru')";
-
-
+                        $query = "INSERT INTO tbl_admin(Username, Password, Nama, Alamat, Foto) 
+                        VALUES ('$Username','$Password','$Nama', '$Alamat', '$nama_baru')";
 
                         if (mysqli_query($koneksi, $query)) {
                             echo "<div class='alert alert-success text-center'>Data Berhasil Disimpan</div>";

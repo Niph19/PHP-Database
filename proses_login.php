@@ -3,7 +3,7 @@
 // Session adalah tempat menyimpan data sementara di server untuk mengingat siapa yang sedang login. Dengan menggunakan session, kita dapat menyimpan informasi tentang pengguna yang sedang login, seperti ID pengguna, nama pengguna, atau peran pengguna. Session memungkinkan kita untuk mengakses informasi ini di seluruh halaman web tanpa harus meminta pengguna untuk login kembali setiap kali mereka mengunjungi halaman baru.
 
 session_start(); // Memulai session
-include "pages/config.php";
+include("pages/header/config.php");
 
 // jika tombol login ditekan 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
